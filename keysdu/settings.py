@@ -44,15 +44,14 @@ DATABASES = {
     }
 }
 
-EMAIL_BACKEND = config('EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
-EMAIL_HOST = config('EMAIL_HOST', default='')
-EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
-EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
-EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
-
-DEFAULT_FROM_EMAIL = 'KeysDu <noreply@keysdu.com>'
-EMAIL_SUBJECT_PREFIX = '[KeysDu] '
+# EMAIL_BACKEND = config('EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
+# EMAIL_HOST = config('EMAIL_HOST', default='')
+# EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
+# EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
+# EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
+# EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
+# DEFAULT_FROM_EMAIL = 'KeysDu <noreply@keysdu.com>'
+# EMAIL_SUBJECT_PREFIX = '[KeysDu] '
 
 # Application definition
 
@@ -66,11 +65,21 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
 
     'widget_tweaks',
+    'anymail',
 
     'accounts',
     'boards',
     'core',
 ]
+
+ANYMAIL = {
+    'MAILGUN_API_KEY': config('MAILGUN_API_KEY'),
+    'MAILGUN_API_URL': config('MAILGUN_API_URL'),
+    'MAILGUN_SENDER_DOMAIN': config('MAILGUN_SENDER_DOMAIN'),
+}
+EMAIL_BACKEND = 'anymail.backends.mailgun.EmailBackend'
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
+SERVER_EMAIL = config('SERVER_EMAIL')
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -150,5 +159,3 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
-
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
