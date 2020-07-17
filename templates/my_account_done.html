@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Change account info successful{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'my_account' %}">My account</a></li>
+  <li class="breadcrumb-item active">Success</li>
+{% endblock %}
+
+{% block content %}
+  <div class="alert alert-success" role="alert">
+    <strong>Success!</strong> Your account info has been changed!
+  </div>
+  <a href="{% url 'home' %}" class="btn btn-secondary">Return to home page</a>
+{% endblock %}

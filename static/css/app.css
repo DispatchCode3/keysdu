@@ -1,0 +1,9 @@
+.navbar-brand {
+    font-family: 'Pacifico';
+    font-style: cursive;
+    font-size: xx-large;
+}
+
+.navbar-dark, .table .thead-dark th, .bg-dark {
+    background-color: #11254a !important;
+}

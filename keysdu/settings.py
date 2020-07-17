@@ -52,8 +52,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
 
+    'widget_tweaks',
+
+    'accounts',
     'boards',
+    'core',
 ]
 
 MIDDLEWARE = [
@@ -128,3 +133,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+
+# Login/Logout redirects
+
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'
+LOGIN_URL = 'login'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

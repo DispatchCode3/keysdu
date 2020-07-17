@@ -14,12 +14,57 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 from django.urls import path
 
-from boards import views
+from accounts import views as accounts_views
+from boards import views as boards_views
+from core import views as core_views
 
 urlpatterns = [
-    path('', views.home, name='home'),
-    path('boards/<pk>/', views.board_topics, name='board_topics'),
+    # Home
+    path('', core_views.home, name='home'),
+    
+    # Account creation/login/logout
+    path('signup/', accounts_views.signup, name='signup'),
+    path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+
+    # Account password reset
+    path('reset/',
+        auth_views.PasswordResetView.as_view(
+            template_name='password_reset.html',
+            email_template_name='password_reset_email.html',
+            subject_template_name='password_reset_subject.txt'
+        ),
+        name='password_reset'),
+    path('reset/done/',
+        auth_views.PasswordResetDoneView.as_view(template_name='password_reset_done.html'),
+        name='password_reset_done'),
+    path('reset/<uidb64>/<token>/',
+        auth_views.PasswordResetConfirmView.as_view(template_name='password_reset_confirm.html'),
+        name='password_reset_confirm'),
+    path('reset/complete/',
+        auth_views.PasswordResetCompleteView.as_view(template_name='password_reset_complete.html'),
+        name='password_reset_complete'),
+
+    # Account settings - change password
+    path('settings/account/', accounts_views.UserUpdateView.as_view(), name='my_account'),
+    path('settings/account/done/', accounts_views.my_account_done, name='my_account_done'),
+    path('settings/password/', auth_views.PasswordChangeView.as_view(template_name='password_change.html'),
+        name='password_change'),
+    path('settings/password/done/', auth_views.PasswordChangeDoneView.as_view(template_name='password_change_done.html'),
+        name='password_change_done'),
+
+    # Boards
+    path('boards/', boards_views.BoardListView.as_view(), name='boards'),
+    path('boards/<pk>/', boards_views.TopicListView.as_view(), name='board_topics'),
+    path('boards/<pk>/new', boards_views.new_topic, name='new_topic'),
+    path('boards/<pk>/topics/<topic_pk>/', boards_views.PostListView.as_view(), name='topic_posts'),
+    path('boards/<pk>/topics/<topic_pk>/reply/', boards_views.reply_topic, name='reply_topic'),
+    path('boards/<pk>/topics/<topic_pk>/posts/<post_pk>/edit/',
+        boards_views.PostUpdateView.as_view(), name='edit_post'),
+    
+    # Admin
     path('admin/', admin.site.urls),
 ]
