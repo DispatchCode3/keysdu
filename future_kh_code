@@ -1,0 +1,127 @@
+import math
+from django.db import models
+from django.contrib.auth.models import User
+from django.utils.html import mark_safe
+from markdown import markdown
+
+
+class State(models.Model):
+	abbreviation = models.CharField(max_length=5)
+	name = models.CharField(max_length=30)
+	
+	def __str__(self):
+		retrun self.name
+
+
+class County(models.Model):
+	abbreviation = models.CharField(max_length=5)
+	name = models.CharField(max_length=30)
+	state = models.ForeignKey(State, on_delete=models.CASCADE)
+	
+	def __str__(self):
+		retrun self.name
+
+
+class Municipality(models.Model):
+	abbreviation = models.CharField(max_length=5)
+	county = models.ForeignKey(County, on_delete=models.CASCADE)
+	
+	def __str__(self):
+		retrun self.name
+		
+class Dispatch(models.Model):
+	name = models.CharField(max_length=)
+	
+class PoliceAgency(models.Model):
+	name = models.CharField(max_length=100)
+	abbreviation = models.CharField(max_length=5)
+
+class FireAgency(models.Model):
+	name = models.CharField(max_length=100)
+	abbreviation = models.CharField(max_length=5)
+	
+class Address(models.Model):
+	area = models.CharField(max_length=3, blank=True)
+	number = models.PositiveIntegerField()
+	directional = models.CharField(max_length=1, blank=True)
+	street_name = models.CharField(max_length=50)
+	street_type = models.CharField(max_length=15, blank=True)
+	suffix = models.CharField(max_length=1, blank=True)
+	apartment = models.CharField(max_length=6, blank=True)
+	building = models.CharField(max_length=6, blank=True)
+	municipality = models.ForeignKey(Municipality, on_delete=models.CASCADE)	
+	policeagency = models.ForeignKey(PoliceAgency, on_delete=models.CASCADE)
+	fireagency = models.ForeignKey(FireAgency, on_delete=models.CASCADE)
+	
+	
+	
+	
+	ADDISON_FD = 'ADF'
+	BARTLETT_FD = 'BAF'
+	BENSENVILLE_FD = 'BEF'
+	BLOOMINGDALE_FD = 'BLF'
+	CLARENDON_HILLS_FD = 'CHF'
+	CAROL_STREAM_FD = 'CSF'
+	DOWNERS_GROVE_FD = 'DGF'
+	DARIEN_WOODRIDGE_FD = 'DWF'
+	ELMHURST_FD = 'ELF'
+	GLEN_ELLYN_FD = 'GEF'
+	GLENSIDE_FD = 'GSF'
+	HINSDALE_FD = 'HIF'
+	HANOVER_PARK_FD = 'HPF'
+	ITASCA_FD = 'ITF'
+	LOMBARD_FD = 'LOF'
+	LISLE_WOODRIDGE_FD = 'LWF'
+	OAK_BROOK_FD = 'OBF'
+	OAKBROOK_TERRACE_FD = 'OTF'
+	PLEASANTVIEW_FD = 'PLF'
+	ROSELLE_FD = 'ROF'
+	TRISTATE_FD = 'TSF'
+	VILLA_PARK_FD = 'VPF'
+	WEST_CHICAGO_FD = 'WCF'
+	WOOD_DALE_FD = 'WDF'
+	WINFIELD_FD = 'WFF'
+	WHEATON_FD = 'WHF'
+	WARRENVILLE_FD = 'WRF'
+	WESTMONT_FD = 'WSF'
+	YORK_CENTER_FD = 'YCF'
+	MUTUAL_AID_FD = 'MAF'
+	
+	FIRE_AGENGY_CHOICES = [
+		(EMPTY_FD, '')
+		(ADDISON_FD, 'Addison Fire'),
+		(BARTLETT_FD, 'Bartlett Fire'),
+		(BENSENVILLE_FD, 'Bensenville Fire'),
+		(BLOOMINGDALE_FD, 'Bloomingdale Fire'),
+		(CLARENDON_HILLS_FD, 'Clarendon Hills Fire'),
+		(CAROL_STREAM_FD, 'Carol Stream Fire'),
+		(DOWNERS_GROVE_FD, 'Downers Grove Fire'),
+		(DARIEN_WOODRIDGE_FD, 'Darien-Woodridge Fire'),
+		(ELMHURST_FD, 'Elmhurst Fire'),
+		(GLEN_ELLYN_FD, 'Glen Ellyn Fire'),
+		(GLENSIDE_FD, 'Glenside Fire'),
+		(HINSDALE_FD, 'Hinsdale Fire'),
+		(HANOVER_PARK_FD, 'Hanover Park Fire'),
+		(ITASCA_FD, 'Itasca Fire'),
+		(LOMBARD_FD, 'Lombard Fire'),
+		(LISLE_WOODRIDGE_FD, 'Lisle-Woodridge Fire'),
+		(OAK_BROOK_FD, 'Oak Brook Fire'),
+		(OAKBROOK_TERRACE_FD, 'Oakbrook Terrace Fire'),
+		(PLEASANTVIEW_FD, 'Pleasantview Fire'),
+		(ROSELLE_FD, 'Roselle Fire'),
+		(TRISTATE_FD, 'Tri-State Fire'),
+		(VILLA_PARK_FD, 'Villa Park Fire'),
+		(WEST_CHICAGO_FD, 'West Chicago Fire'),
+		(WOOD_DALE_FD, 'Wood Dale Fire'),
+		(WINFIELD_FD, 'Winfield Fire'),
+		(WHEATON_FD, 'Wheaton Fire'),
+		(WARRENVILLE_FD, 'Warrenville Fire'),
+		(WESTMONT_FD, 'Westmont Fire'),
+		(YORK_CENTER_FD, 'York Center Fire'),
+		(MUTUAL_AID_FD, '--Not Dupage ETSB--')
+	]
+	
+	FIRE_AGENCY = models.CharField(
+		max_length=2,
+		choices=FIRE_AGENGY_CHOICES,
+		)
