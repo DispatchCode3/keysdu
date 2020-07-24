@@ -56,6 +56,7 @@ DATABASES = {
 # Application definition
 
 INSTALLED_APPS = [
+    'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -64,12 +65,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
 
-    'widget_tweaks',
     'anymail',
+    'widget_tweaks',
 
     'accounts',
     'boards',
     'core',
+    'keyholders',
 ]
 
 ANYMAIL = {
